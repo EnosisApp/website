@@ -1,0 +1,8 @@
+h4 {
+	text-align: center;
+}
+
+.col > ul > li {
+	margin-left: 35px;
+	list-style-type: circle !important;
+}

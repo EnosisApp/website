@@ -1,0 +1,353 @@
+<?php
+
+namespace ApiBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use AppBundle\Entity\Poi;
+
+use ApiBundle\SessionManager\SessionManager;
+
+use ApiBundle\Utils\Geohash;
+
+use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+
+class PoiController extends Controller
+{
+    // List of possible categories for PoIs
+    protected $cats = ['langue', 'sport', 'lifestyle', 'musique', 'creativite', 'culture', 'sorties'];
+
+	/**
+	 * @Route("/getPoiFromBeacon")
+     * @Method("POST")
+     * @ApiDoc(
+     *   description="Gets PoI id from a beacon's bluetooth name",
+     *   parameters={
+     *     {"name"="beacon", "dataType"="integer", "required"=true, "description"="Bluetooth name of the beacon"}
+     *   },
+     *   statusCodes={
+     *     200="Object found",
+     *     404="Beacon not found in database",
+     *   }
+     * )
+	 */
+    public function getPoiFromBeaconAction(Request $r)
+    {
+    	if(!$r->get('beacon'))
+    		return new JsonResponse(['code' => 418, 'message' => 'I\'m a teapot']);
+    		
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository('AppBundle:Beacon');
+        if(!$b = $rep->findOneByBtName($r->get('beacon')))
+        	return new JsonResponse(['code' => 404, 'message' => 'Beacon is not ours']);
+        	
+        return new JsonResponse(['code' => '200', 'poi_id' => $b->getPoi()->getId()]);
+    }
+
+    public function countTransform($x) {
+        if($x > 1000)
+            return floor($x/1000).'k';
+        elseif($x > 100)
+            return floor($x/100)*100;
+        else
+            return $x;
+    }
+
+    /**
+     * @Route("/getPoisInBounds")
+     * @Method("POST")
+     * @ApiDoc(
+     *   description="Gets PoIs in geo bounds, and stack them if distance between bounds is too high",
+     *   parameters={
+     *     {"name"="southwest", "dataType"="array", "required"=true, "description"="Southwest bounds, made of lat and lng params"},
+     *     {"name"="northeast", "dataType"="array", "required"=true, "description"="Northeast bounds, made of lat and lng params"},
+     *     {"name"="accessible", "dataType"="string", "required"=true, "description"="Boolean value representing if user is in accessible mode"}
+     *   },
+     *   statusCodes={
+     *     200="Objects found"
+     *   }
+     * )
+     */
+    public function getPoisInBounds()
+    {
+        if(!isset($_POST['southwest']) || empty($_POST['southwest']) || !isset($_POST['northeast']) || empty($_POST['northeast']))
+            return new JsonResponse(['code' => 418, 'message' => 'I\'m a teapot']);
+
+
+        $left = $_POST['southwest']['lng'];
+        $top = $_POST['northeast']['lat'];
+        $right = $_POST['northeast']['lng'];
+        $bottom = $_POST['southwest']['lat'];
+
+        $ret = [];
+
+        $client = SessionManager::_getClient();
+        $query = [
+            'index' => 'app',
+            'type' => 'poi',
+            'body' => [
+		'size' => 1000,
+                'query' => [
+                    'bool' => [
+                        'filter' => [
+                            'geo_bounding_box' => [
+                                'location' => [
+                                    'top_left' => [
+                                        'lat' => $top,
+                                        'lon' => $left
+                                    ],
+	                                    'bottom_right' => [
+                                        'lat' => $bottom,
+                                        'lon' => $right
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        if($_POST['accessible'] === "true") {
+            $query['body']['query']['bool']['must'] = [
+                            'term' => [
+                                'accessible' => ($_POST['accessible'] === "true")
+                            ]
+                        ];
+        }
+
+        if(abs($left-$right) > 0.3) {
+            $query['body']['aggs'] = [
+                'cities' => [
+                    'terms' => [
+                        'field' => 'city'
+                    ]
+                ]
+            ];
+
+            $cities = $client->search($query);
+
+            // var_dump($cities['aggregations']['cities']['buckets']);
+
+            foreach ($cities['aggregations']['cities']['buckets'] as $bucket) {
+                list($lat, $lon) = explode(";", $bucket['key']);
+                $ret[] = [
+                    'lat' => $lat,
+                    'lon' => $lon,
+                    'count' => $this->countTransform($bucket['doc_count']),
+                    'type' => 'city'
+                ];
+            }
+        }
+        elseif(abs($left-$right) > 0.15) {
+            $diff = abs($left-$right);
+            $precision = 5;
+            
+            // if($diff > 0.3)
+            //     $precision = 4;
+            // if($diff > 1.6)
+            //     $precision = 3;
+
+            $query['body']['aggs'] = [
+                'groups' => [
+                    'geohash_grid' => [
+                        'field' => 'location',
+                        'precision' => $precision
+                    ]
+                ]
+            ];
+
+            $groups = $client->search($query);
+
+            foreach ($groups['aggregations']['groups']['buckets'] as $bucket) {
+                $geohash = new Geohash;
+                list($lat, $lon) = $geohash->decode($bucket['key']);
+
+
+                $ret[] = [
+                    'lat' => $lat,
+                    'lon' => $lon,
+                    'count' => $this->countTransform($bucket['doc_count']),
+                    'type' => 'city'
+                ];
+            }
+        } else {
+            $points = $client->search($query);
+
+            foreach ($points['hits']['hits'] as $poi) {
+                $ret[] = [
+                    'id' => $poi['_id'],
+                    'label' => $poi['_source']['caption'],
+                    'lat' => $poi['_source']['location']['lat'],
+                    'lon' => $poi['_source']['location']['lon'],
+                    'type' => $poi['_source']['type'],
+                    'address' => $poi['_source']['address'],
+                    'accessible' => $poi['_source']['accessible']
+                ];
+            }
+        }
+
+        return new JsonResponse($ret);
+    }
+
+    /**
+     * @Route("/getPoi/{id}")
+     * @Method("GET")
+     * @ApiDoc(
+     *   description="Fetch data from the user hobbies on a given point",
+     *   parameters={
+     *     {"name"="id","dataType"="integer","required"=true,"description"="Id of the PoI we want to fetch data from"}
+     *   },
+     *   statusCodes={
+     *     200="Data fetched successfully",
+     *     404="PoI not found"
+     *   }
+     * )
+     */
+    public function getPoiAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository('AppBundle:Poi');
+        $poi = $rep->find($id);
+        if($poi) {
+            $ret = [];
+            $age = [];
+
+            $infos = SessionManager::GetInfosFromPoi($poi, $this->cats);
+            foreach ($infos['aggregations']['interests'] as $cat => $info) {
+                if(in_array($cat, $this->cats)) {
+                    $ret[$cat] = [];
+                    foreach ($info['buckets'] as $bucket)
+                        $ret[$cat][$bucket['key']] = $bucket['score']['value'];
+                    arsort($ret[$cat]);
+                    $ret[$cat] = array_slice($ret[$cat], 0, 5);
+                }
+            }
+
+            foreach ($infos['aggregations']['age']['buckets'] as $b
+            ]
+        ];
+
+        if($_POST['accessible'] === "true") {
+            $query['body']['query']['bool']['must'] = [
+                            'term' => [
+                                'accessible' => ($_POST['accessible'] === "true")
+                            ]
+                        ];
+        }
+
+        if(abs($left-$right) > 0.3) {
+            $query['body']['aggs'] = [
+                'cities' => [
+                    'terms' => [
+                        'field' => 'city'
+                    ]
+                ]
+            ];
+
+            $cities = $client->search($query);
+
+            // var_dump($cities['aggregations']['cities']['buckets']);
+
+            foreach ($cities['aggregations']['cities']['buckets'] as $bucket) {
+                list($lat, $lon) = explode(";", $bucket['key']);
+                $ret[] = [
+                    'lat' => $lat,
+                    'lon' => $lon,
+                    'count' => $this->countTransform($bucket['doc_count']),
+                    'type' => 'city'
+                ];
+            }
+        }
+        elseif(abs($left-$right) > 0.15) {
+            $diff = abs($left-$right);
+            $precision = 5;
+            
+            // if($diff > 0.3)
+            //     $precision = 4;
+            // if($diff > 1.6)
+            //     $precision = 3;
+
+            $query['body']['aggs'] = [
+                'groups' => [
+                    'geohash_grid' => [
+                        'field' => 'location',
+                        'precision' => $precision
+                    ]
+                ]
+            ];
+
+            $groups = $client->search($query);
+
+            foreach ($groups['aggregations']['groups']['buckets'] as $bucket) {
+                $geohash = new Geohash;
+                list($lat, $lon) = $geohash->decode($bucket['key']);
+
+
+                $ret[] = [
+                    'lat' => $lat,
+                    'lon' => $lon,
+                    'count' => $this->countTransform($bucket['doc_count']),
+                    'type' => 'city'
+                ];
+            }
+        } else {
+            $points = $client->search($query);
+
+            foreach ($points['hits']['hits'] as $poi) {
+                $ret[] = [
+                    'id' => $poi['_id'],
+                    'label' => $poi['_source']['caption'],
+                    'lat' => $poi['_source']['location']['lat'],
+                    'lon' => $poi['_source']['location']['lon'],
+                    'type' => $poi['_source']['type'],
+                    'address' => $poi['_source']['address'],
+                    'accessible' => $poi['_source']['accessible']
+                ];
+            }
+        }
+
+        return new JsonResponse($ret);
+    }
+
+    /**
+     * @Route("/getPoi/{id}")
+     * @Method("GET")
+     * @ApiDoc(
+     *   description="Fetch data from the user hobbies on a given point",
+     *   parameters={
+     *     {"name"="id","dataType"="integer","required"=true,"description"="Id of the PoI we want to fetch data from"}
+     *   },
+     *   statusCodes={
+     *     200="Data fetched successfully",
+     *     404="PoI not found"
+     *   }
+     * )
+     */
+    public function getPoiAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository('AppBundle:Poi');
+        $poi = $rep->find($id);
+        if($poi) {
+            $ret = [];
+            $age = [];
+
+            $infos = SessionManager::GetInfosFromPoi($poi, $this->cats);
+            foreach ($infos['aggregations']['interests'] as $cat => $info) {
+                if(in_array($cat, $this->cats)) {
+                    $ret[$cat] = [];
+                    foreach ($info['buckets'] as $bucket)
+                        $ret[$cat][$bucket['key']] = $bucket['score']['value'];
+                    arsort($ret[$cat]);
+                    $ret[$cat] = array_slice($ret[$cat], 0, 5);
+                }
+            }
+
+            foreach ($infos['aggregations']['age']['buckets'] as $b

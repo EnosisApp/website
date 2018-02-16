@@ -1,0 +1,136 @@
+/********** ENSOSIS APP *********/
+
+html {
+  margin: 0;
+}
+
+body {
+  font-family: "Quicksand";
+  border: 15px solid #65c5c1; /* fallback for old browsers */
+  border: -webkit-linear-gradient(to left, #02AAB0 , #00CDAC); /* Chrome 10-25, Safari 5.1-6 */
+  border: linear-gradient(to left, #02AAB0 , #00CDAC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  height: 100vh;
+}
+
+#enosis_identity {
+  text-align: center;
+  margin-bottom: 7%;
+  margin-top: 15%;
+}
+
+#enosis_identity #logo {
+  width: 150px;
+  margin-bottom: 10%;
+}
+
+#enosis_identity p {
+  margin: 0 auto;
+  width: 40%;
+  font-size: 1.4em;
+}
+
+#download {
+  width: 70%;
+  margin-left : 15%;
+  text-align: center;
+}
+
+#download p {
+  font-size: 1em;
+  margin-top: 5%;
+}
+
+#download #dl_app {
+  background: -webkit-linear-gradient(to left, #65c5c1 , #4eacd8); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #65c5c1 , #4eacd8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: #FFF;
+  border-radius: 50px;
+  padding: 20px 30px;
+  font-size: 0.5em;
+  text-decoration: none;
+  color: none;
+  transition: background 0.5s;
+  -webkit-transition: width 2s;
+}
+
+#download #dl_app:hover {
+  background: #FFF;
+  color: #4eacd8;
+  border: 2px solid #4eacd8;
+}
+
+#download #dl_app:hover span {
+  background: -webkit-linear-gradient(to left, #65c5c1 , #4eacd8); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #65c5c1 , #4eacd8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: #FFF;
+}
+
+h2 span{
+  position: absolute;
+  color: #65c5c1;
+  margin-left: -20px;
+  font-size: 0.7em;
+  margin-top: -25px;
+
+  border-radius: 20px;
+  padding: 10px;
+  background-color: #FFF;
+  border: 2px solid #65c5c1;
+
+  /* Rotation du texte soon */
+  -webkit-transform: rotate(19deg);
+  -moz-transform: rotate(19deg);
+  -ms-transform: rotate(19deg);
+  -o-transform: rotate(19deg);
+  transform: rotate(19deg);
+}
+
+#survey {
+  color: #65c5c1;
+}
+
+#net {
+  text-align: center;
+}
+
+#twitter {
+  color: #65c5c1;
+  margin-top: 5%;
+  margin-left: 10%;
+  text-decoration: none;
+  margin-left: 35%;
+}
+
+#twitter i {
+  font-size: 3em;
+  text-align: left;
+}
+
+.maquette {
+  text-align: center;
+}
+
+/** Maquettes **/
+.maquette img {
+  margin-top: 10%;
+  width: 85%;
+}
+
+/* Affichage desktop */
+@media screen and (min-width: 720px) {
+  #download {
+    margin-bottom: 10%;
+  }
+  #net {
+    text-align: left;
+  }
+  #download #dl_app  {
+    font-size: 0.7em;
+  }
+}
+
+@media screen and (max-width: 720px) {
+    .maquette {
+    display: none;
+  }
+}

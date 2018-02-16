@@ -1,0 +1,91 @@
+{% extends 'BackBundle::layout.html.twig' %}
+
+{% block h1 %}
+	Gestion des Points d'intérêt <small>hey look bob, I'm a teapot !</small>
+{% endblock %}
+
+{% block breadcrumb %}
+	<li><a href="{{ path('back_dashboard') }}"><i class="fa fa-dashboard"></i> Accueil</a></li>
+	<li><i class="fa fa-map-marker"></i> Gestion des points d'intérêt</li>
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="box">
+				<div class="box-body">
+					<div id="map" style="width:100%;height:500px"></div>
+				</div>
+			</div>
+
+			<div class="box">
+				<div class="box-body">
+					<a href="{{ path('back_pois_add') }}" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> Ajouter un lieu</a>
+					<table class="table table-stripped table-bordered t1style">
+						<thead>
+							<tr>
+								<th>#id</th>
+								<th>Point d'intérêt</th>
+								<th>Propriétaire</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for poi in pois %}
+								<tr>
+									<td>{{ poi.id }}</td>
+									<td>{{ poi.caption }}</td>
+									<td>{% if poi.owner %}{{ poi.owner.username }}{% endif %}</td>
+									<td>
+										<a href="{{ path('back_pois_edit', {'id': poi.id}) }}"><i class="fa fa-pencil"></i> Edit</a> - 
+										<a href="{{ path('back_pois_remove', {'id': poi.id}) }}"><i class="fa fa-times"></i> Remove</a>
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="{{ asset('admin/js/jquery.dataTables.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('admin/js/dataTables.bootstrap.min.js') }}"></script>
+	<script>
+		$(function() {
+			$(document).ready(function() {
+			    $('table').DataTable();
+			} );
+		});
+
+		function initMap() {
+			var map = new google.maps.Map(document.getElementById('map'), {});
+
+			var bounds = new google.maps.LatLngBounds();
+			var infowindow = new google.maps.InfoWindow();  
+
+			{% for poi in pois if poi.lat != "" and poi.lon != "" %}
+			var marker = new google.maps.Marker({
+				position: {lat: {{ poi.lat }}, lng: {{ poi.lon }}},
+				map: map,
+				title: '{{ poi.caption }}'
+			});
+			google.maps.event.addListener(marker, 'click', (function(marker) {
+				return function() {
+					infowindow.setContent('{{ poi.caption }} <a href="{{ path('back_pois_edit', {'id': poi.id}) }}"><i class="glyphicon glyphicon-log-in"></i></a>');
+					infowindow.open(map, marker);
+				}
+			})(marker));
+			bounds.extend(marker.position);
+			{% endfor %}
+			map.fitBounds(bounds);
+			var listener = google.maps.event.addListener(map, "idle", function() { 
+			  if (map.getZoom() > 16) map.setZoom(16); 
+			  google.maps.event.removeListener(listener); 
+			});
+		}
+	</script>
+
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM8kPEg_3rSvQvZDrr5-rcuzterWeVSP4&callback=initMap"></script>
+
+{% endblock %}

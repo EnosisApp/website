@@ -1,0 +1,185 @@
+PUT app 
+{
+    "settings": {
+        "number_of_shards": 2
+    },
+    "mappings": {
+        "session": {
+            "properties": {
+                "age": {
+                    "type": "keyword"
+                },
+                "handicap": {
+                    "type": "boolean"
+                },
+                "last_heartbeat": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss Z"
+                },
+                "location": {
+                    "type": "geo_point"
+                },
+                "poi": {
+                    "type": "integer"
+                },
+                "prefs": {
+                    "type": "nested",
+                    "properties": {
+                        "lang": {
+                            "type": "keyword"
+                        },
+                        "sport": {
+                            "type": "keyword"
+                        },
+                        "activities": {
+                            "type": "keyword"
+                        },
+                        "music": {
+                            "type": "keyword"
+                        }
+                    }
+                },
+                "start": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss Z"
+                },
+                "stop": {
+                    "type": "date",
+                    "format": "yyyy-MM-dd HH:mm:ss Z"
+                }
+            }
+        },
+        "poi": {
+            "properties": {
+                "location": {
+                    "type": "geo_point"
+                },
+                "city": {
+                    "type": "keyword"
+                },
+                "caption": {
+                    "type": "keyword"
+                },
+                "address": {
+                    "type": "keyword"
+                },
+                "type": {
+                    "type": "keyword"
+                },
+                "accessible": {
+                    "type": "boolean"
+                },
+                "pushNotification": {
+                    "type": "text"
+                },
+                "beacons": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                }
+            }
+        }
+    }
+}
+
+
+
+GET /app/session/_delete_by_query
+{
+    "query": {
+        "match_all": {}
+    }
+}
+
+
+GET /app/session/_search
+{
+  "query": {
+    "bool": {
+      "must_not": {
+        "exists": {
+          "field": "stop"
+        }
+      },
+      "must": [
+        {
+          "range": {
+            "last_heartbeat": {
+              "lte": "now-20m",
+              "time_zone": "+01:00"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET /app/session/_update_by_query?conflicts=proceed
+{
+  "query": {
+    "bool": {
+      "must_not": {
+        "exists": {
+          "field": "stop"
+        }
+      },
+      "must": [
+        {
+          "range": {
+            "last_heartbeat": {
+              "lte": "now-20m",
+              "time_zone": "+01:00"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "script": {
+    "inline": "ctx._source.stop = '2017-02-14 10:30:00 +0100'"
+  }
+}
+
+GET /app/session/_update_by_query
+{
+  "query": {
+    "bool": {
+      "must_not": {
+        "exists": {
+          "field": "stop"
+        }
+      },
+      "should": [
+        {
+          "range": {
+            "last_heartbeat": {
+              "lte": "now-20m",
+              "time_zone": "+01:00"
+            }
+          }
+        },
+        {
+          "bool": {
+            "must_not": [
+              {
+                "exists": {
+                  "field": "last_heartbeat"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "script": {
+    "inline": "ctx._source.stop = '2017-02-14 10:30:00 +0100'"
+  },
+  "conflicts": "proceed"
+}
+

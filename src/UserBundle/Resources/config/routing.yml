@@ -1,0 +1,3 @@
+user_test:
+    path:     /test
+    defaults: { _controller: UserBundle:Default:test }

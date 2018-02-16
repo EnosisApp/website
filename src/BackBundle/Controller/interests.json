@@ -1,0 +1,581 @@
+{
+    "lang":[
+          {
+              "text": "Allemand",
+              "abrev": "de"
+          },
+          {
+              "text": "Anglais",
+              "abrev": "en"
+          },
+          {
+              "text": "Arabe",
+              "abrev": "arb"
+          },
+          {
+              "text": "Mandarin",
+              "abrev": "man"
+          },
+          {
+              "text": "Espagnol",
+              "abrev": "esp"
+          },
+          {
+              "text": "Français",
+              "abrev": "fr"
+          },
+          {
+              "text": "Hindi",
+              "abrev": "hin"
+          },
+          {
+              "text": "Indonésien",
+              "abrev": "ind"
+          },
+          {
+              "text": "Italien",
+              "abrev": "it"
+          },
+          {
+              "text": "Japonais",
+              "abrev": "jap"
+          },
+          {
+              "text": "Ourdou",
+              "abrev": "ou"
+          },
+          {
+              "text": "Portugais",
+              "abrev": "po"
+          },
+          {
+              "text": "Russe",
+              "abrev": "ru"
+          }
+    ],
+  	  "sport": {
+      		"athle": {
+      			"text": "Athlétisme"
+      		},
+      		"aviron": {
+      			"text": "Aviron"
+      		},
+          "badminton": {
+              "text": "Badminton"
+          },
+          "baseball": {
+              "text": "Baseball"
+          },
+          "basket": {
+              "text": "Basket-ball"
+          },
+          "biathlon": {
+              "text": "Biathlon"
+          },
+          "bmx": {
+              "text": "BMX"
+          },
+          "boxe": {
+              "text": "Boxe"
+          },
+          "canoe": {
+              "text": "Canoë"
+          },
+          "chute": {
+              "text": "Chute libre"
+          },
+          "cricket": {
+              "text": "Cricket"
+          },
+          "croquet": {
+              "text": "Croquet"
+          },
+          "curling": {
+              "text": "Curling"
+          },
+          "cyclisme": {
+              "text": "Cyclisme"
+          },
+          "danse": {
+              "text": "Danse"
+          },
+          "esport":{
+              "text": "E-sport"
+          },
+          "echec": {
+      			"text": "Echec"
+      		},
+      		"equitation": {
+      			"text": "Equitation"
+      		},
+          "escalade": {
+              "text": "Escalade"
+          },
+          "escrime": {
+              "text": "Escrime"
+          },
+          "fitness": {
+              "text": "Fitness"
+          },
+          "foot": {
+              "text": "Foot"
+          },
+          "golf": {
+              "text": "Golf"
+          },
+          "gym": {
+              "text": "Gymnastique"
+          },
+          "haltero": {
+              "text": "Haltérophilie"
+          },
+          "handball": {
+              "text": "Handball"
+          },
+          "hockey": {
+              "text": "Hockey"
+          },
+          "jogging": {
+              "text": "Jogging"
+          },
+          "judo": {
+              "text": "Judo"
+          },
+          "karaté": {
+              "text": "Karaté"
+          },
+          "karting": {
+              "text": "Karting"
+          },
+          "kayak": {
+              "text": "Kayak"
+          },
+          "kayakpolo": {
+              "text": "Kayak-polo"
+          },
+          "luge": {
+              "text": "Luge"
+          },
+          "lutte": {
+              "text": "Lutte"
+          },
+          "mma": {
+              "text": "MMA"
+          },
+          "natation": {
+              "text": "Natation"
+          },
+          "pingpong": {
+              "text": "Ping-pong"
+          },
+          "plongee": {
+              "text": "Plongée"
+          },
+          "polo": {
+              "text": "Polo"
+          },
+          "rugby": {
+              "text": "Rugby"
+          },
+          "rugbysub": {
+              "text": "Rugby subaquatique"
+          },
+          "skate": {
+              "text": "Skateboard"
+          },
+          "ski": {
+              "text": "Ski"
+          },
+          "skifond": {
+              "text": "Ski de fond"
+          },
+          "skwal": {
+              "text": "Skwal"
+          },
+          "snow": {
+              "text": "Snowboard"
+          },
+          "softball": {
+              "text": "Softball"
+          },
+          "sportsx": {
+              "text": "Sports extrêmes"
+          },
+          "surf": {
+              "text": "Surf"
+          },
+          "taekwondo": {
+              "text": "Taekwondo"
+          },
+          "tennis": {
+              "text": "Tennis"
+          },
+          "tirsportif": {
+              "text": "Tir sportif"
+          },
+          "tirarc": {
+              "text": "Tir à l'arc"
+          },
+          "triathlon": {
+              "text": "Triathlon"
+          },
+          "voile": {
+              "text": "Voile"
+          },
+          "volley": {
+              "text": "Volley-ball"
+          },
+          "waterpolo": {
+              "text": "Water-polo"
+          }
+  	},
+  	  "activities": {
+      		"animaux": {
+      		    "text": "Animaux"
+      		},
+          "cirque": {
+      		    "text": "Art du cirque"
+      		},
+          "astrologie": {
+      		    "text": "Astrologie"
+      		},
+          "astronomie": {
+      		    "text": "Astronomie"
+      		},
+          "auto": {
+      		    "text": "Auto"
+      		},
+          "bd": {
+      		    "text": "BD"
+      		},
+          "bricolage": {
+      		    "text": "Bricolage"
+      		},
+          "benevolat": {
+      		    "text": "Bénévolat"
+      		},
+          "causeanimal": {
+      		    "text": "Cause animale"
+      		},
+          "chant": {
+      		    "text": "chant"
+      		},
+          "chasse": {
+      		    "text": "Chasse"
+      		},
+          "cinema": {
+      		    "text": "Cinéma"
+      		},
+          "collectionneur": {
+      		    "text": "Collectionner"
+      		},
+          "composition": {
+      		    "text": "Composition"
+      		},
+          "concert": {
+      		    "text": "Concert"
+      		},
+          "cosplay": {
+      		    "text": "Cosplay"
+      		},
+          "couture": {
+      		    "text": "Couture"
+      		},
+          "video": {
+      		    "text": "Création Vidéo"
+      		},
+          "cuisine": {
+      		    "text": "Cuisine"
+      		},
+          "doy": {
+      		    "text": "DOY"
+      		},
+          "danse": {
+      		    "text": "Danse"
+      		},
+          "deco": {
+      		    "text": "Décoration"
+      		},
+          "dessin": {
+      		    "text": "Dessin"
+      		},
+          "developpement": {
+      		    "text": "Développement"
+      		},
+          "ecologie": {
+      		    "text": "Ecologie"
+      		},
+          "ecriture": {
+      		    "text": "Ecriture"
+      		},
+          "festival": {
+      		    "text": "Festival"
+      		},
+          "film": {
+      		    "text": "Film-TV"
+      		},
+          "genealogie": {
+      		    "text": "Généalogie"
+      		},
+          "humanitaire": {
+      		    "text": "Humanitaire"
+      		},
+          "jardinage": {
+      		    "text": "Jardinage"
+      		},
+          "jeuxsociete": {
+      		    "text": "Jeux de société"
+      		},
+          "jeuxvideo": {
+      		    "text": "Jeux-vidéo"
+      		},
+          "leche": {
+      		    "text": "Lèche-vitrine"
+      		},
+          "maquette": {
+      		    "text": "Maquette"
+      		},
+          "mode": {
+      		    "text": "Mode"
+      		},
+          "moto": {
+      		    "text": "Moto"
+      		},
+          "musique": {
+      		    "text": "Musique"
+      		},
+          "musee": {
+      		    "text": "Musée"
+      		},
+          "opera": {
+      		    "text": "Opéra"
+      		},
+          "peinture": {
+      		    "text": "Peinture"
+      		},
+          "photo": {
+      		    "text": "Photographie"
+      		},
+          "politique": {
+      		    "text": "Politique"
+      		},
+          "presse": {
+      		    "text": "Presse"
+      		},
+          "peche": {
+      		    "text": "Pêche"
+      		},
+          "radio": {
+      		    "text": "Radio"
+      		},
+          "randonnee": {
+      		    "text": "Randonnée"
+      		},
+          "restaurant": {
+      		    "text": "Restaurant"
+      		},
+          "romans": {
+      		    "text": "Romans"
+      		},
+          "social": {
+      		    "text": "Résaux-sociaux"
+      		},
+          "science": {
+      		    "text": "Science"
+      		},
+          "scrapbooking": {
+      		    "text": "Scrapbooking"
+      		},
+          "sculpture": {
+      		    "text": "Sculpture"
+      		},
+          "secourisme": {
+      		    "text": "Secourisme"
+      		},
+          "series": {
+      		    "text": "Séries"
+      		},
+          "sorties": {
+      		    "text": "Sorties nocturnes"
+      		},
+          "spiritualite": {
+      		    "text": "Spiritualité"
+      		},
+          "sport": {
+      		    "text": "Sport"
+      		},
+          "speleo": {
+      		    "text": "Spéléologie"
+      		},
+          "tv": {
+      		    "text": "TV"
+      		},
+          "tage": {
+      		    "text": "Tage"
+      		},
+          "theatre": {
+      		    "text": "Théâtre"
+      		},
+          "vegan": {
+      		    "text": "Vegan"
+      		},
+          "vegetarien": {
+      		    "text": "Vegetarien"
+      		},
+          "vin": {
+      		    "text": "Vin"
+      		},
+          "voyage": {
+      		    "text": "Voyage"
+      		},
+          "yoga": {
+      		    "text": "Yoga"
+      		}
+  	},
+      "music": {
+          "afro": {
+               "text": "Afro-Beat"
+          },
+          "ambient": {
+               "text": "Ambient"
+          },
+          "beat": {
+               "text": "Beat"
+          },
+          "blues": {
+               "text": "Blues"
+          },
+          "bossa": {
+    			     "text": "Bossa Nova"
+    		  },
+          "chansonfr": {
+    			     "text": "Chanson française"
+    		  },
+          "chantspop": {
+    			     "text": "Chants populaires"
+    		  },
+          "chorale": {
+    			     "text": "Chorale"
+    		  },
+          "classique": {
+    			     "text": "Classique"
+    		  },
+          "coldwave": {
+    			     "text": "Cold Wave"
+    		  },
+          "comedie": {
+    			     "text": "Comédie Musicale"
+    		  },
+          "country": {
+    			     "text": "Country"
+    		  },
+          "dance": {
+    			     "text": "Dance"
+    		  },
+          "disco": {
+    			     "text": "Disco"
+    		  },
+          "drumbass": {
+    			     "text": "Drum-n-Bass"
+    		  },
+          "electro": {
+    			     "text": "Electro"
+    		  },
+          "folk": {
+    			     "text": "Folk"
+    		  },
+          "funk": {
+    			     "text": "Funk"
+    		  },
+          "fusion": {
+    			     "text": "Fusion"
+    		  },
+          "gitane": {
+    			     "text": "Gitane"
+    		  },
+          "glam": {
+    			     "text": "Glam Rock"
+    		  },
+          "gospel": {
+    			     "text": "Gospel"
+    		  },
+          "hardrock": {
+    			     "text": "Hard rock"
+    		  },
+          "hiphop": {
+    			     "text": "Hip-Hop"
+    		  },
+          "house": {
+    			     "text": "House"
+    		  },
+          "indierock": {
+    			     "text": "Indie Rock"
+    		  },
+          "jazz": {
+    			     "text": "Jazz"
+    		  },
+          "latino": {
+    			     "text": "Latino"
+    		  },
+          "metal": {
+    			     "text": "Métal"
+    		  },
+          "newage": {
+    			     "text": "New age"
+    		  },
+          "opera": {
+    			     "text": "Opéra"
+    		  },
+          "orientale": {
+    			     "text": "Orientale"
+    		  },
+          "pop": {
+    			     "text": "Pop"
+    		  },
+          "punk": {
+    			     "text": "Punk"
+    		  },
+          "rnb": {
+    			     "text": "RnB"
+    		  },
+          "rap": {
+    			     "text": "Rap"
+    		  },
+          "raï": {
+    			     "text": "Raï"
+    		  },
+          "reggea": {
+    			     "text": "Reggae"
+    		  },
+          "rock": {
+    			     "text": "Rock"
+    		  },
+          "rythmblues": {
+    			     "text": "Rythm'n'blues"
+    		  },
+          "salsa": {
+    			     "text": "Salsa"
+    		  },
+          "ska": {
+    			     "text": "Ska"
+    		  },
+          "soul": {
+    			     "text": "Soul"
+    		  },
+          "swing": {
+    			     "text": "Swing"
+    		  },
+          "techno": {
+    			     "text": "Techno"
+    		  },
+          "triphop": {
+    			     "text": "Trip-Hop"
+    		  },
+          "varietes": {
+    			     "text": "Variétés"
+    		  },
+          "zouk": {
+    			     "text": "Zouk"
+    		  }
+  	}
+}

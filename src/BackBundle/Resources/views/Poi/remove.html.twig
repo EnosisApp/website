@@ -1,0 +1,33 @@
+{% extends 'BackBundle::layout.html.twig' %}
+
+{% block h1 %}
+	Supprimer un point d'intérêt <small>not my fault</small>
+{% endblock %}
+
+{% block breadcrumb %}
+	<li><a href="{{ path('back_dashboard') }}"><i class="fa fa-dashboard"></i> Accueil</a></li>
+	<li><a href="{{ path('back_pois') }}"><i class="fa fa-map-marker"></i> Gestion des points d'intérêt</a></li>
+	<li><i class="fa fa-times"></i> Supprimer un point d'intérêt</li>
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="box">
+				<div class="box-header with-border">
+					Suppression d'un point d'intérêt
+				</div>
+				<div class="box-body">
+					<p>
+						Êtes-vous certain de vouloir supprimer le point d'intérêt <i>{{ poi.caption }}</i> ?<br />
+						<b>Attention:</b> cela supprimera également les beacons associés, cette action est irréversible.
+					</p>
+				</div>
+				<div class="box-footer">
+					<a href="?confirm=true" class="btn btn-danger pull-right">Supprimer</a>
+					<a href="{{ path('back_pois') }}" class="btn btn-success pull-right mRight6">Annuler</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

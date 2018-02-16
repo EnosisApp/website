@@ -1,0 +1,143 @@
+/* Small Devices, Tablets */
+
+@media only screen and (min-width: 768px) {
+
+    .header-right {
+        display: block;
+        float: right;
+        padding: 6px 20px;
+    }
+
+    .header-headline {
+        text-align: left;
+    }
+
+    .header-running-text {
+        line-height: 30px;
+        margin: 0;
+        text-align: left;
+    }
+
+    .hero {
+        padding-bottom: 230px;
+    }
+
+    .hero-button {
+        margin-top: 30px;
+        margin-bottom: 30px;
+    }
+
+    .hero-right {
+        text-align: left;
+        padding-top: 5%;
+    }
+
+    .ipad {
+        display: block;
+        position: absolute;
+        right: 100px;
+        z-index: 1;
+        height: 427px;
+        width: 45%;
+        border-radius: 25px;
+    }
+
+    .ipad-screen {
+        display: block;
+        padding-bottom: 40px;
+        margin-top: 19px;
+        right: 1px;
+    }
+
+    .feature-section {
+        padding-top: 60px;
+    }
+
+    .features-headline {
+        color: #FFF;
+        padding-bottom: 70px;
+    }
+
+    .logos {
+        padding: 20px 20px 40px 20px;
+        max-width: 100%;
+    }
+
+    .white-section-text {
+        text-align: justify;
+        padding-top: 80px;
+        padding-left: 100px;
+    }
+
+    .imac-section-desc {
+        font-weight: 300;
+        font-size: 15px;
+        line-height: 30px;
+        max-width: 400px;
+        margin: inherit;
+        text-align: left;
+    }
+
+    .pricing-table {
+        padding: 70px 0 100px;
+        max-width: 1050px;
+        margin: auto;
+    }
+
+}
+
+.team {
+    padding-bottom: 130px;
+}
+
+.team-member {
+    text-align: center;
+}
+
+.email-form-div {
+    max-width: inherit;
+    margin: auto;
+}
+
+.webscope {
+    margin-top: 0;
+}
+
+.social-links {
+    float: right;
+}
+
+ .video-container {
+   position: relative;
+   padding-bottom: 56.25%;
+   padding-top: 30px;
+   height: 0;
+   overflow: hidden;
+   padding-left: 5%;
+   padding-right: 5%;
+}
+ .video-container iframe,
+ .video-container object,
+ .video-container embed {
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   width: 80%;
+   height: 80%;
+   margin: auto;
+}
+iframe {
+    width: 100%;
+    height: auto;
+}
+
+/* Medium Devices, Desktops */
+
+@media only screen and (min-width: 992px) {
+}
+
+/* Large Devices, Wide Screens */
+
+@media only screen and (min-width: 1200px) {
+}

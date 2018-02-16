@@ -1,0 +1,169 @@
+{% extends 'BackBundle::layout.html.twig' %}
+
+{% form_theme form 'BackBundle::_form.html.twig' %}
+
+{% block h1 %}
+	Editer un point d'intérêt <small>gg ez</small>
+{% endblock %}
+
+{% block breadcrumb %}
+	<li><a href="{{ path('back_dashboard') }}"><i class="fa fa-dashboard"></i> Accueil</a></li>
+	<li><a href="{{ path('back_pois') }}"><i class="fa fa-map-marker"></i> Gestion des points d'intérêt</a></li>
+	<li><i class="fa fa-pencil"></i> Editer un point d'intérêt</li>
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-md-4 col-sm-12">
+			<div class="box">
+				<div class="box-header with-border">
+					Paramètres du point d'intérêt
+				</div>
+
+				<div class="box-body">
+					<form method="POST">
+						{{ form_row(form.caption) }}
+						{{ form_row(form.address) }}
+						{{ form_row(form.type) }}
+						{{ form_row(form.city) }}
+						{{ form_rest(form) }}
+						<input type="submit" class="btn btn-primary pull-right" value="Editer" title="Vérifiez d'abord l'adresse sur la carte" />
+						<div class="pull-right mRight6"><a href="#!" id="showOnMap" class="btn btn-success">Voir l'adresse sur la carte</a></div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4 col-sm-12">
+			<div class="box">
+				<div class="box-body">
+					<div id="map" style="width:100%;height:300px"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4 col-sm-12">
+			<div class="box">
+				<div class="box-header with-border">
+					Gestion des Beacons associés
+				</div>
+				
+				<div class="box-body">
+					<table class="table table-stripped table-bordered t2style">
+						<thead>
+							<tr>
+								<th>Nom</th>
+								<th>Identifiant</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for b in poi.beacons %}
+								<tr>
+									<td>{{ b.caption }}</td>
+									<td>{{ b.btName }}</td>
+									<td><a href="{{ path('back_pois_beacons_remove', {'poiid': poi.id, 'id': b.id}) }}"><i class="fa fa-times"></i></a></td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+
+					<form id="addBeacon" method="POST" action="{{ path('back_pois_beacons_add', {'poiid': poi.id}) }}">
+						<div class="separator"></div>
+						<div class="form-group">
+							<label for="caption">Nom du beacon <small>pour le retrouver plus facilement</label>
+							<input type="text" name="caption" id="caption" class="form-control" />
+						</div>
+						<div class="form-group">
+							<label for="btName">Nom Bluetooth du Beacon <small>généralement inscrit dessus</small></label>
+							<input type="text" name="btName" id="btName" class="form-control" />
+						</div>
+						<input type="hidden" name="poi" value="{{ poi.id }}" />
+						<input type="submit" value="Créer" class="btn btn-primary pull-right" />
+					</form>
+				</div>
+
+				<div class="box-footer">
+					<a href="#!" class="btn btn-primary pull-right addBeacon">Ajouter un Beacon</a>
+				</div>
+			</div>
+
+			<div class="box">
+				<div class="box-header with-border">
+					<h3 class="box-title">Profil du lieu</h3>
+				</div>
+
+				<div class="box-body">
+					{% for cat, data in infos %}
+					{{ cat }}:
+					<ul>
+						{% for interest, value in data %}
+						<li>{{ interests[cat][interest]['text'] }}</li>
+						{% endfor %}
+					</ul>
+					{% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		var map;
+		var markers = [];
+
+		$(function() {
+			$("#form_address").change(function() {
+				$("input[type='submit']").prop('disabled', true);
+			});
+
+			$(".addBeacon").click(function() { $("#addBeacon").slideDown(); });
+
+			$("#showOnMap").click(function() {
+				$.get("https://maps.googleapis.com/maps/api/geocode/json", {
+					'key': "AIzaSyCM8kPEg_3rSvQvZDrr5-rcuzterWeVSP4",
+					'address': $("#form_address").val()
+				}, function(ret) {
+					if(ret.status == "OK") {
+						$("input[type='submit']").prop('disabled', false);
+						// $("#form_lat").val(ret.results[0].geometry.location.lat);
+						// $("#form_lon").val(ret.results[0].geometry.location.lng)
+
+						$(markers).each(function(i, e) {
+							e.setMap(null);
+						})
+
+						var bounds = new google.maps.LatLngBounds();
+						var marker = new google.maps.Marker({
+							position: {lat: ret.results[0].geometry.location.lat, lng: ret.results[0].geometry.location.lng},
+							map: map
+						});
+						markers.push(marker);
+						bounds.extend(marker.position);
+						map.fitBounds(bounds);
+						map.setZoom(16);
+					}
+				});
+			});
+		});
+
+		function initMap() {
+			map = new google.maps.Map(document.getElementById('map'), {});
+
+			var bounds = new google.maps.LatLngBounds();
+
+			var marker = new google.maps.Marker({
+				position: {lat: {{ poi.lat }}, lng: {{ poi.lon }}},
+				map: map
+			});
+			bounds.extend(marker.position);
+			map.fitBounds(bounds);
+			var listener = google.maps.event.addListener(map, "idle", function() { 
+			  if (map.getZoom() > 16) map.setZoom(16); 
+			  google.maps.event.removeListener(listener); 
+			});
+		}
+	</script>
+
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM8kPEg_3rSvQvZDrr5-rcuzterWeVSP4&callback=initMap"></script>
+{% endblock %}

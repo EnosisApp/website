@@ -1,0 +1,125 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Beacon
+ *
+ * @ORM\Table(name="beacon")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\BeaconRepository")
+ */
+class Beacon
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="caption", type="string", length=255)
+     */
+    private $caption;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="btName", type="string", length=35, unique=true)
+     */
+    private $btName;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Poi", inversedBy="beacons")
+     */
+    private $poi;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set caption
+     *
+     * @param string $caption
+     *
+     * @return Beacon
+     */
+    public function setCaption($caption)
+    {
+        $this->caption = $caption;
+
+        return $this;
+    }
+
+    /**
+     * Get caption
+     *
+     * @return string
+     */
+    public function getCaption()
+    {
+        return $this->caption;
+    }
+
+    /**
+     * Set btName
+     *
+     * @param string $btName
+     *
+     * @return Beacon
+     */
+    public function setBtName($btName)
+    {
+        $this->btName = $btName;
+
+        return $this;
+    }
+
+    /**
+     * Get btName
+     *
+     * @return string
+     */
+    public function getBtName()
+    {
+        return $this->btName;
+    }
+
+    /**
+     * Set poi
+     *
+     * @param \AppBundle\Entity\Poi $poi
+     *
+     * @return Beacon
+     */
+    public function setPoi(\AppBundle\Entity\Poi $poi = null)
+    {
+        $this->poi = $poi;
+
+        return $this;
+    }
+
+    /**
+     * Get poi
+     *
+     * @return \AppBundle\Entity\Poi
+     */
+    public function getPoi()
+    {
+        return $this->poi;
+    }
+}

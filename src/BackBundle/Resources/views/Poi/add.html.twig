@@ -1,0 +1,88 @@
+{% extends 'BackBundle::layout.html.twig' %}
+
+{% form_theme form 'BackBundle::_form.html.twig' %}
+
+{% block h1 %}
+	Créer un point d'intérêt <small>the cake is a lie</small>
+{% endblock %}
+
+{% block breadcrumb %}
+	<li><a href="{{ path('back_dashboard') }}"><i class="fa fa-dashboard"></i> Accueil</a></li>
+	<li><a href="{{ path('back_pois') }}"><i class="fa fa-map-marker"></i> Gestion des points d'intérêt</a></li>
+	<li><i class="fa fa-plus"></i> Créer un point d'intérêt</li>
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-md-8 col-sm-12">
+			<div class="box">
+				<div class="box-header with-border">
+					Paramètres du point d'intérêt
+				</div>
+
+				<div class="box-body">
+					<form method="POST">
+						{{ form_row(form.caption) }}
+						{{ form_row(form.address) }}
+						{{ form_row(form.type) }}
+						{{ form_row(form.city) }}
+						{{ form_rest(form) }}
+						<input type="submit" class="btn btn-primary pull-right" value="Créer" disabled="disabled" title="Vérifiez d'abord l'adresse sur la carte" />
+						<div class="pull-right mRight6"><a href="#!" id="showOnMap" class="btn btn-success">Voir l'adresse sur la carte</a></div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-4 col-sm-12">
+			<div class="box">
+				<div class="box-body">
+					<div id="map" style="width:100%;height:300px"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var map;
+		var markers = [];
+
+		$(function() {
+			$("#showOnMap").click(function() {
+				$.get("https://maps.googleapis.com/maps/api/geocode/json", {
+					'key': "AIzaSyCM8kPEg_3rSvQvZDrr5-rcuzterWeVSP4",
+					'address': $("#form_address").val()
+				}, function(ret) {
+					if(ret.status == "OK") {
+						$("input[type='submit']").prop('disabled', false);
+						// $("#form_lat").val(ret.results[0].geometry.location.lat);
+						// $("#form_lon").val(ret.results[0].geometry.location.lng)
+
+						$(markers).each(function(i, e) {
+							e.setMap(null);
+						})
+
+						var bounds = new google.maps.LatLngBounds();
+						var marker = new google.maps.Marker({
+							position: {lat: ret.results[0].geometry.location.lat, lng: ret.results[0].geometry.location.lng},
+							map: map
+						});
+						markers.push(marker);
+						bounds.extend(marker.position);
+						map.fitBounds(bounds);
+						map.setZoom(16);
+					}
+				});
+			});
+		});
+
+		function initMap() {
+			map = new google.maps.Map(document.getElementById('map'), {
+				zoom: 12,
+				center: {lat: 44.8315764, lng: -0.5954131}
+			});
+		}
+	</script>
+
+	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM8kPEg_3rSvQvZDrr5-rcuzterWeVSP4&callback=initMap"></script>
+{% endblock %}

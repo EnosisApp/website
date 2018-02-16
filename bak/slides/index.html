@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vidéo de présentation de l'application d'Enosis</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+</head>
+    <body>
+        <div id="impress">
+            <!--Diapo 1-->
+            <div class="step box" data-x="-1000" data-y="0" data-scale="3">
+                <img class="logo" src="img/logo_offi.png" alt="Logo Enosis">
+                <h1>Rapprochons les comunautés !</h1>
+            </div>
+
+            <!--Diapo 2-->
+            <div class="step box" data-x="0" data-y="1900" data-scale="1.5" data-rotate="90">
+                <div class="middle">
+                    <img src="img/Alexandre.svg" alt="Alexandre est content">
+                    <img src="img/logo_universite.png" alt="logo de l'université de Bordeaux">
+                </div>
+                <!--<p>devient triste à : "mais il ne trouve pas les lieux correspondants"</p>
+                <img src="img/Alexandre_Triste.svg" alt="Alexandre est triste"> -->             
+            </div>
+
+            <!--Diapo 3-->
+            <div class="step box" data-x="0" data-y="1600" data-z="-750" data-rotate="270" data-scale="0.1">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3 middleCol">
+                            <img src="img/Alexandre.svg" alt="Alexandre est content">
+                        </div>
+                        <div class="col-sm-4 maquette">
+                            <img src="img/profile_cat.png">
+                        </div>
+                    </div>
+                </div>                
+                
+                <!--<p>(c'est là qu'ENOSIS intervient) insertion animation de la sélection de catégorie, du filtrage avec la barre de recherche, affichage fablab, label[i] et abeii, affichage slider après clique sur un des trois lieux</p>-->
+            </div>
+
+            <!--Diapo 4-->
+            <div class="step box" data-x="200" data-y="4800" data-rotate="90" data-scale="2">
+                <div class="row">
+                    <img src="img/Sarah.svg" alt="Sarah est contente">
+                    <img src="img/Victor.svg" alt="Victor est content">
+                </div>
+                <div class="row">
+                    <img src="img/logo_universite.png" alt="logo université de bordeaux">
+                    <img src="img/ville_de_rennes.png" alt="logo ville de Rennes">
+                </div>
+                <!--<p>animé en triste à partir de :(Le problème étant de savoir quels sont les lieux accessibles pour Victor)</p>
+                <img src="img/Sarah_Triste.svg" alt="Sarah est triste">
+                <img src="img/Victor_Triste.svg" alt="Victor est triste">-->
+            </div>
+
+            <!--Diapo 5-->
+            <div class="step box" data-x="2200" data-y="2000" data-z="-1000" data-rotate="45" data-scale="2">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-3 middleCol">
+                            <img src="img/Sarah.svg" alt="Sarah est contente">
+                            <img src="img/Victor.svg" alt="Victor est content">
+                        </div>
+                        <div class="col-sm-4 maquetteRight">
+                            <img src="img/home_markers.png">
+                        </div>
+                    </div>
+                </div> 
+                <!--<p>(Encore une fois, Enosis est là) Animation clique sur bouton accessibilité qui trie les POIs sur la map</p>-->
+            </div>
+
+            <!--Diapo 6-->
+            <div class="step box showMaquette" data-x="8500" data-y="0" data-rotate="-45" data-scale="2">
+                <div class="bigMiddle">
+                    <img src="img/profile_cat.png">
+                </div>
+                <!--<p>Animation création d'un profil</p>-->
+            </div>
+
+            <!--Diapo 7-->
+            <div class="step box showMaquette" data-x="1000" data-y="9000" data-rotate="120" data-scale="5">
+                <div class="bigMiddle">
+                    <img src="img/no.svg" alt="Image de panneau non">
+                </div>
+                
+                <!--<p>animation vers </p>
+                <img src="img/noGps.svg" alt="Image de panneau anti GPS">-->
+            </div>
+
+            <!--Diapo 8-->
+            <div class="step box" data-x="4000" data-y="-3000" data-rotate="90" data-rotate-x="-90" data-scale="4">
+                <div class="row">
+                    <img src="img/Alexandre.svg" alt="Alexandre est content">
+                    <img src="img/Sarah.svg" alt="Sarah est contente">
+                    <img src="img/Victor.svg" alt="Victor est content">
+                </div>
+                <div class="bottom">                    
+                    <img src="img/community_blue.svg" alt="Image représentant la communauté">
+                </div>
+            </div>
+
+            <!--Diapo 9-->
+            <div class="step box" data-x="6500" data-y="2000" data-rotate="60" data-scale="2">
+                <div class="flags">                    
+                    <img src="img/flags.svg" alt="assemblage de drapeaux" ">
+                </div>
+            </div>
+
+            <!--Diapo 10-->
+            <div class="step box" data-x="3400" data-y="3000" data-rotate="-90" data-scale="0.1">
+                <img class="logo" src="img/logo_offi.png" alt="Logo Enosis">
+                <h1>Rapprochons les comunautés !</h1>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="js/impress.js"></script>
+        <script type="text/javascript">
+            impress().init();
+        </script>
+    </body>
+</html>
