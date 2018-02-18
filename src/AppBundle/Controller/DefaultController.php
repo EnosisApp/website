@@ -10,4 +10,9 @@ class DefaultController extends Controller
     {
         return $this->render('AppBundle:Default:index.html.twig');
     }
+
+    public function mentionsAction()
+    {
+        return $this->render('AppBundle:Default:mentions.html.twig');
+    }
 }

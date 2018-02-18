@@ -1,3 +1,6 @@
 app_homepage:
     path:     /
     defaults: { _controller: AppBundle:Default:index }
+app_mentions:
+    path:     /mentions
+    defaults: { _controller: AppBundle:Default:mentions }
